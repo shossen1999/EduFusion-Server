@@ -109,19 +109,19 @@ app.get('/users',verifyToken, async (req, res) => {
   if (req.query.email) {
       query = { email: req.query.email }
   }
-  // if (req.query.page && req.query.size) {
-  //     const currentPage = parseInt(req.query.page);
-  //     const size = parseInt(req.query.size);
-  //     if (req.query.search) {
-  //         query.name = { $regex: req.query.search, $options: 'i' }; // case-insensitive search
-  //         const result = await userCollection.find(query).toArray()
-  //         res.send(result)
-  //         return
-  //     }
-     // const result = await userCollection.find(query).skip((currentPage - 1) * size).limit(size).toArray()
-     // res.send(result)
-      //return
- // }
+  if (req.query.page && req.query.size) {
+      const currentPage = parseInt(req.query.page);
+      const size = parseInt(req.query.size);
+      if (req.query.search) {
+          query.name = { $regex: req.query.search, $options: 'i' }; // case-insensitive search
+          const result = await userCollection.find(query).toArray()
+          res.send(result)
+          return
+      }
+     const result = await userCollection.find(query).skip((currentPage - 1) * size).limit(size).toArray()
+     res.send(result)
+      return
+ }
   const result = await userCollection.find(query).toArray();
   res.send(result)
 })
@@ -245,24 +245,24 @@ app.get('/classes', async (req, res) => {
       }
 
       // Pagination
-      // const page = parseInt(req.query.page) || 1;
-      // const pageSize = parseInt(req.query.size) || 6;
-      // const skip = (page - 1) * pageSize;
+      const page = parseInt(req.query.page) || 1;
+      const pageSize = parseInt(req.query.size) || 6;
+      const skip = (page - 1) * pageSize;
 
       if (req.query.status === 'accepted') {
           query.status = 'accepted'
       }
 
       // Search by class name
-      // if (req.query.search) {
-      //     query.title = { $regex: req.query.search, $options: 'i' };
-      // }
+      if (req.query.search) {
+          query.title = { $regex: req.query.search, $options: 'i' };
+      }
 
       // Perform the query
-      const classes = await classCollection.find(query).toArray();
-          // .skip(skip)
-          // .limit(pageSize)
-          
+      const classes = await classCollection.find(query)
+         .skip(skip)
+          .limit(pageSize)
+          .toArray();
 
       res.send(classes);
   } catch (error) {
