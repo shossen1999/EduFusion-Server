@@ -103,27 +103,27 @@ app.patch('/user/:email', verifyToken, verifyAdmin, async (req, res) => {
   res.send(result)
 })
 
-app.get('/users',verifyToken, async (req, res) => {
-  // console.log(req.headers);
-  let query = {}
-  if (req.query.email) {
-      query = { email: req.query.email }
-  }
-  if (req.query.page && req.query.size) {
-      const currentPage = parseInt(req.query.page);
-      const size = parseInt(req.query.size);
-      if (req.query.search) {
-          query.name = { $regex: req.query.search, $options: 'i' }; // case-insensitive search
-          const result = await userCollection.find(query).toArray()
-          res.send(result)
-          return
-      }
-     const result = await userCollection.find(query).skip((currentPage - 1) * size).limit(size).toArray()
-     res.send(result)
-      return
- }
-  const result = await userCollection.find(query).toArray();
-  res.send(result)
+
+app.get('/users', verifyToken, async (req, res) => {
+    let query = {}
+    if (req.query.email) {
+        query = { email: req.query.email }
+    }
+    if (req.query.page && req.query.size) {
+        const currentPage = parseInt(req.query.page);
+        const size = parseInt(req.query.size);
+        if (req.query.search) {
+            query.name = { $regex: req.query.search, $options: 'i' }; // case-insensitive search
+            const result = await userCollection.find(query).toArray()
+            res.send(result)
+            return
+        }
+        const result = await userCollection.find(query).skip((currentPage - 1) * size).limit(size).toArray()
+        res.send(result)
+        return
+    }
+    const result = await userCollection.find(query).toArray();
+    res.send(result)
 })
 
  app.post('/users', async (req, res) => {
