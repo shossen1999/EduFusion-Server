@@ -136,14 +136,7 @@ app.get('/users', verifyToken, async (req, res) => {
   const result = await userCollection.insertOne(user);
   res.send(result);
 })
-// user related api
-// app.get("/profile/:email", async (req, res) => {
-//   const email = req.params.email;
-//   // console.log(email)
-//   const query = { email: email };
-//   const result = await userCollection.findOne(query);
-//   res.send(result);
-// });
+
 
 // teacher collection api
 app.post('/teacherRequest', verifyToken, async (req, res) => {
