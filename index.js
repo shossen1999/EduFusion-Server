@@ -159,21 +159,21 @@ app.get('/teacherRequest', async (req, res) => {
   }
 
   // Extract page and size from query parameters
-  // const page = parseInt(req.query.page) || 1;  
-  // const size = parseInt(req.query.size) || 10; 
+  const page = parseInt(req.query.page) || 1;  
+  const size = parseInt(req.query.size) || 10; 
 
-  // try {
-      // const skip = (page - 1) * size;
+   try {
+       const skip = (page - 1) * size;
 
-      const result = await teacherRequestCollection.find(query).toArray()
-          // .skip(skip)
-          // .limit(size)
-          // .toArray();
+      const result = await teacherRequestCollection.find(query)
+          .skip(skip)
+          .limit(size)
+          .toArray();
 
   res.send(result);
-  // } catch (error) {
-  //     res.status(500).send({ message: 'Error fetching teacher requests', error });
-  // }
+  } catch (error) {
+       res.status(500).send({ message: 'Error fetching teacher requests', error });
+   }
 });
 
 app.put('/teacherRequest/:id', verifyToken, async (req, res) => {
