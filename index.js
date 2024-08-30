@@ -10,11 +10,15 @@ const port = process.env.PORT || 5000;
 
 // middleware
 app.use(cors({
-    origin: 'https://edu-fusion-ab009.web.app', // Allow specific origin
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',  // Allowed methods
-    credentials: true,                          // Allow credentials
-    allowedHeaders: 'Content-Type,Authorization', // Allowed headers
+    origin: [
+        'https://edu-fusion-ab009.web.app', 
+        'http://localhost:5173'            
+    ],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',  
+    credentials: true,                          
+    allowedHeaders: 'Content-Type,Authorization', 
 }));
+
 
 app.use(express.json());
 
